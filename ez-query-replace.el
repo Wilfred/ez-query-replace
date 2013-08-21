@@ -44,6 +44,7 @@ Otherwise, get the symbol at point."
 ;; todo: investigate whether we're reinventing the wheel, since query-replace-history already exists
 (defvar ez-query-replace/history nil)
 
+;;;###autoload
 (defun ez-query-replace (from-string to-string)
   "Replace occurrences of FROM-STRING with TO-STRING, defaulting
 to the symbol at point."
@@ -64,6 +65,7 @@ to the symbol at point."
 
 (eval-when-compile (require 'cl)) ; first, second
 
+;;;###autoload
 (defun ez-query-replace-repeat ()
   (interactive)
   (unless ez-query-replace/history
