@@ -83,6 +83,7 @@ to the symbol at point."
 
 ;;;###autoload
 (defun ez-query-replace-repeat ()
+  "Run `ez-query-replace' with an old FROM and TO value."
   (interactive)
   (unless ez-query-replace/history
     (error "You haven't used `ez-query-replace yet"))
@@ -95,3 +96,4 @@ to the symbol at point."
                    t nil nil)))
 
 (provide 'ez-query-replace)
+;;; ez-query-replace.el ends here
