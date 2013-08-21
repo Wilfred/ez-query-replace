@@ -64,7 +64,7 @@ to the symbol at point."
 
 (eval-when-compile (require 'cl)) ; first, second
 
-(defun query-replace-repeat ()
+(defun ez-query-replace-repeat ()
   (interactive)
   (unless ez-query-replace/history
     (error "You haven't used `ez-query-replace yet"))
