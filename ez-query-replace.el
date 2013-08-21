@@ -7,6 +7,16 @@
 ;; Version: 0.1
 ;; Package-Requires: ((dash "1.2.0"))
 
+;;; Usage:
+
+;; The ez-query-replace commands are autoloaded, so you don't need to
+;; (require 'ez-query-replace). Just install ez-query-replace and bind
+;; it to your desired keys. I prefer to override the default
+;; query-replace bindings:
+
+;; (define-key global-map (kbd "M-%") 'ez-query-replace)
+;; (define-key global-map (kbd "C-c M-%") 'ez-query-replace-repeat)
+
 ;;; License:
 
 ;; This file is not part of GNU Emacs.
