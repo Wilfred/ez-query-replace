@@ -61,23 +61,24 @@ Otherwise, get the symbol at point."
 (defvar ez-query-replace/history nil)
 
 ;;;###autoload
-(defun ez-query-replace (from-string to-string)
+(defun ez-query-replace ()
   "Replace occurrences of FROM-STRING with TO-STRING, defaulting
 to the symbol at point."
-  (interactive (list
-                (read-from-minibuffer "Replace what? " (ez-query-replace/dwim-at-point))
-                (read-from-minibuffer "With what? ")))
+  (interactive)
+  (let* ((from-string (read-from-minibuffer "Replace what? " (ez-query-replace/dwim-at-point)))
+         (to-string (read-from-minibuffer
+                     (format "Replace %s with what? " from-string))))
 
-  ;; if we currently have point on a symbol we're replacing, go back
-  (-when-let* ((current-symbol (symbol-at-point))
-               (current-symbol-name (symbol-name current-symbol))
-               (string-matches (string-equal current-symbol-name from-string)))
-    (forward-symbol -1))
+    ;; if we currently have point on a symbol we're replacing, go back
+    (-when-let* ((current-symbol (symbol-at-point))
+                 (current-symbol-name (symbol-name current-symbol))
+                 (string-matches (string-equal current-symbol-name from-string)))
+      (forward-symbol -1))
 
-  (add-to-list 'ez-query-replace/history
-               (list (format "%s -> %s" from-string to-string)
-                     from-string to-string))
-  (perform-replace from-string to-string t nil nil))
+    (add-to-list 'ez-query-replace/history
+                 (list (format "%s -> %s" from-string to-string)
+                       from-string to-string))
+    (perform-replace from-string to-string t nil nil)))
 
 (eval-when-compile (require 'cl)) ; first, second
 
