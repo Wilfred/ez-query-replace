@@ -6,6 +6,11 @@ replacements.
 
 ## Changelog
 
+### v0.2
+
+Improved the minibuffer prompt: say what we're replacing when we do
+the replacement.
+
 ### v0.1
 
 Initial release.
