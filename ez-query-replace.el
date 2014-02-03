@@ -4,7 +4,7 @@
 ;;
 ;; Author: Wilfred Hughes <me@wilfred.me.uk>
 ;; Created: 21 August 2013
-;; Version: 0.2
+;; Version: 0.3
 ;; Package-Requires: ((dash "1.2.0"))
 
 ;;; Commentary:
@@ -52,7 +52,9 @@
   "If there's an active selection, return that.
 Otherwise, get the symbol at point."
   (cond ((use-region-p)
-         (buffer-substring-no-properties (region-beginning) (region-end)))
+         (prog1
+             (buffer-substring-no-properties (region-beginning) (region-end))
+           (deactivate-mark)))
         ((symbol-at-point)
          (substring-no-properties
           (symbol-name (symbol-at-point))))))
