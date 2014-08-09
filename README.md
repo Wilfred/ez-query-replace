@@ -6,10 +6,15 @@ replacements.
 
 ## Changelog
 
+### v0.4
+
+ez-query-replace is now smarter about setting the initial value of
+point when you are replacing the value at point.
+
 ### v0.3
 
 If the region is active when ez-query-replace is called, we deactivate
-it after readings its contents. The active region just gets in the way
+it after reading its contents. The active region just gets in the way
 when you're replacing values.
 
 ### v0.2
