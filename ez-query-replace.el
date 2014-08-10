@@ -1,4 +1,4 @@
-;;; ez-query-replace.el --- A helpful query-replace.
+;;; ez-query-replace.el --- a smarter context-sensitive query-replace that can be reapplied
 
 ;; Copyright (C) 2013 Wilfred Hughes <me@wilfred.me.uk>
 ;;
