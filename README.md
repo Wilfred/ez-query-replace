@@ -1,5 +1,7 @@
 # ez-query-replace
 
+[![MELPA](http://melpa.org/packages/ez-query-replace-badge.svg)](http://melpa.org/#/ez-query-replace)
+
 ez-query-replace is a simple wrapper around `query-replace' that adds
 a default search term, and allows you to conveniently replay old
 replacements.
@@ -10,6 +12,9 @@ replacements.
 
 ez-query-replace is now smarter about setting the initial value of
 point when you are replacing the value at point.
+
+We also now support helm/ivy/whatever your favourite completion
+engine is.
 
 ### v0.3
 
