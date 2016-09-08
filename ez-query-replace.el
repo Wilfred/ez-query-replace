@@ -106,7 +106,7 @@ to the symbol at point."
   (unless ez-query-replace/history
     (error "You haven't used `ez-query-replace yet"))
   (let* ((choices (mapcar 'first ez-query-replace/history))
-         (choice (ido-completing-read "Previous replaces: " choices))
+         (choice (completing-read "Previous replaces: " choices))
          (from-with-to (cdr (assoc choice ez-query-replace/history)))
          (from-string (first from-with-to))
          (to-string (second from-with-to)))
