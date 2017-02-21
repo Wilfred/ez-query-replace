@@ -48,6 +48,10 @@
 (require 'dash)
 (require 'thingatpt)
 
+(defcustom ez-query-replace/symbol-as-default-replacement nil
+  "If true, insert the symbol that shall be replaced as default when asking for the replacement."
+  :group 'ez-query-replace :type 'boolean)
+
 (defun ez-query-replace/dwim-at-point ()
   "If there's an active selection, return that.
 Otherwise, get the symbol at point."
@@ -87,7 +91,8 @@ to the symbol at point."
   (interactive)
   (let* ((from-string (read-from-minibuffer "Replace what? " (ez-query-replace/dwim-at-point)))
          (to-string (read-from-minibuffer
-                     (format "Replace %s with what? " from-string))))
+                     (format "Replace %s with what? " from-string)
+                     (when ez-query-replace/symbol-as-default-replacement from-string))))
 
     (ez-query-replace/backward from-string)
 
