@@ -48,6 +48,10 @@
 (require 'dash)
 (require 'thingatpt)
 
+(defcustom ez-query-replace/symbol-to-kill-ring nil
+  "If true, push symbol that shall be replaced to kill ring before asking for the replacement."
+  :group 'ez-query-replace :type 'boolean)
+
 (defcustom ez-query-replace/symbol-as-default-replacement nil
   "If true, insert the symbol that shall be replaced as default when asking for the replacement."
   :group 'ez-query-replace :type 'boolean)
@@ -90,9 +94,13 @@ of this string."
 to the symbol at point."
   (interactive)
   (let* ((from-string (read-from-minibuffer "Replace what? " (ez-query-replace/dwim-at-point)))
-         (to-string (read-from-minibuffer
-                     (format "Replace %s with what? " from-string)
-                     (when ez-query-replace/symbol-as-default-replacement from-string))))
+         (to-string ""))
+
+    (when ez-query-replace/symbol-to-kill-ring
+      (kill-new from-string))
+
+    (setq to-string (read-from-minibuffer (format "Replace %s with what? " from-string)
+                                          (when ez-query-replace/symbol-as-default-replacement from-string)))
 
     (ez-query-replace/backward from-string)
 
