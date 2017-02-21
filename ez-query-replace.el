@@ -48,6 +48,14 @@
 (require 'dash)
 (require 'thingatpt)
 
+(defcustom ez-query-replace/symbol-to-kill-ring nil
+  "If true, push symbol that shall be replaced to kill ring before asking for the replacement."
+  :group 'ez-query-replace :type 'boolean)
+
+(defcustom ez-query-replace/symbol-as-default-replacement nil
+  "If true, insert the symbol that shall be replaced as default when asking for the replacement."
+  :group 'ez-query-replace :type 'boolean)
+
 (defun ez-query-replace/dwim-at-point ()
   "If there's an active selection, return that.
 Otherwise, get the symbol at point."
@@ -59,23 +67,25 @@ Otherwise, get the symbol at point."
 
 (defun ez-query-replace/backward (from-string)
   "If point is on a string we want to replace, try to move back to its beginning.
-This ensures that we can replace the current instance, not just future instances
-of this string."
-  (cond
-   ;; If the region is active, the point should be at the start of the region.
-   ((use-region-p)
-    (goto-char (region-beginning)))
-   ;; If we're replacing the symbol at point, just move back to its start.
-   ((and
-     (symbol-at-point)
-     (string-equal (symbol-name (symbol-at-point)) from-string))
-    (forward-symbol -1))
-   ;; If we're just replacing some text that happens to be at point:
-   ;;   foo |bar
-   ;; and `from-string' is "foo bar", it's hard to move back the right amount.
-   ;; For now, we don't move rather than approximate.
-   ;; TODO: Search the buffer for from-string and work out if we should move.
-   ))
+This ensures that we can replace the current instance, not just future instances of this string."
+  (let* ((opoint (point))
+         (foundend (save-excursion ;; this might fail for emacs version <25.1
+                     (goto-char (point-min))
+                     (cl-loop while (and (<= (point) opoint) (search-forward from-string nil t))
+                              return (point))))
+         (foundst (if foundend (- foundend (length from-string)) nil)))
+    (cond
+     ((use-region-p) ;; if the region is active, the point should be at the start of the region
+      (goto-char (region-beginning)))
+     ((and ;; if we're replacing the symbol at point, just move back to its start
+       (symbol-at-point)
+       (string-equal (symbol-name (symbol-at-point)) from-string))
+      (forward-symbol -1))
+     ((and ;; if we're replacing a region that is not a single symbol move back to its start
+       foundend ;; this is nil if there hasn't been any matches
+       (< foundst opoint) ;; check if we are in between the match boundaries
+       (<= opoint foundend)) ;; check for match boundaries
+      (backward-char (- opoint foundst))))))
 
 ;; todo: investigate whether we're reinventing the wheel, since query-replace-history already exists
 (defvar ez-query-replace/history nil)
@@ -86,8 +96,13 @@ of this string."
 to the symbol at point."
   (interactive)
   (let* ((from-string (read-from-minibuffer "Replace what? " (ez-query-replace/dwim-at-point)))
-         (to-string (read-from-minibuffer
-                     (format "Replace %s with what? " from-string))))
+         (to-string ""))
+
+    (when ez-query-replace/symbol-to-kill-ring
+      (kill-new from-string))
+
+    (setq to-string (read-from-minibuffer (format "Replace %s with what? " from-string)
+                                          (when ez-query-replace/symbol-as-default-replacement from-string)))
 
     (ez-query-replace/backward from-string)
 
