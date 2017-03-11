@@ -71,11 +71,15 @@ of this string."
      (string-equal (symbol-name (symbol-at-point)) from-string))
     (forward-symbol -1))
    ;; If we're just replacing some text that happens to be at point:
-   ;;   foo |bar
-   ;; and `from-string' is "foo bar", it's hard to move back the right amount.
-   ;; For now, we don't move rather than approximate.
-   ;; TODO: Search the buffer for from-string and work out if we should move.
-   ))
+   (t
+    ;; If point is mid-way through an instance of the text we're
+    ;; replacing:
+    ;;   foo |bar
+    ;; and `from-string' is "foo bar", move to its start position.
+    (let ((initial-pos (point)))
+      (ignore-errors
+        (backward-char (length from-string)))
+      (search-forward from-string initial-pos t)))))
 
 ;; todo: investigate whether we're reinventing the wheel, since query-replace-history already exists
 (defvar ez-query-replace/history nil)

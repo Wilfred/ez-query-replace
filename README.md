@@ -16,6 +16,9 @@ point when you are replacing the value at point.
 We also now support helm/ivy/whatever your favourite completion
 engine is.
 
+If point is midway through a replacement string, we now correctly
+replace it.
+
 ### v0.3
 
 If the region is active when ez-query-replace is called, we deactivate
