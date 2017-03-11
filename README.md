@@ -21,7 +21,7 @@ access the text you're replacing. This great when you want to replace
 
 ### Replaying previous replacements
 
-![query replace choice](query_replace_default.png)
+![query replace choice](query_replace_choice.png)
 
 In the screenshot above, `M-x ez-query-replace-repeat` offers previous
 replacements with completion. I'm
