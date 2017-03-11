@@ -2,9 +2,31 @@
 
 [![MELPA](http://melpa.org/packages/ez-query-replace-badge.svg)](http://melpa.org/#/ez-query-replace)
 
-ez-query-replace is a simple wrapper around `query-replace' that adds
+ez-query-replace is a simple wrapper around `query-replace` that adds
 a default search term, and allows you to conveniently replay old
 replacements.
+
+## Usage
+
+### Default text
+
+![query replace default](query_replace_default.png)
+
+In the screenshot above, you can see `M-x ez-query-replace` offering the
+symbol at point by default.
+
+**Tip**: You can use `M-p` (bound to `previous-history-element`) to
+access the text you're replacing. This great when you want to replace
+"fooba" with "foobar".
+
+### Replaying previous replacements
+
+![query replace choice](query_replace_default.png)
+
+In the screenshot above, `M-x ez-query-replace-repeat` offers previous
+replacements with completion. I'm
+using [swiper](https://github.com/abo-abo/swiper) here but ido and
+helm work too.
 
 ## Changelog
 
