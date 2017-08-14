@@ -91,13 +91,15 @@ to the symbol at point."
   (interactive)
   (let* ((from-string (read-from-minibuffer "Replace what? " (ez-query-replace/dwim-at-point)))
          (to-string (read-from-minibuffer
-                     (format "Replace %s with what? " from-string))))
+                     (format "Replace %s with what? " from-string)))
+         (history-entry (list (format "%s -> %s" from-string to-string)
+                              from-string to-string)))
 
     (ez-query-replace/backward from-string)
 
-    (add-to-list 'ez-query-replace/history
-                 (list (format "%s -> %s" from-string to-string)
-                       from-string to-string))
+    (unless (member history-entry ez-query-replace/history)
+      (push history-entry ez-query-replace/history))
+    
     (deactivate-mark)
     (perform-replace from-string to-string t nil nil)))
 
