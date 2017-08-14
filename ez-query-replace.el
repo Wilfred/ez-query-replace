@@ -5,7 +5,7 @@
 ;; Author: Wilfred Hughes <me@wilfred.me.uk>
 ;; Created: 21 August 2013
 ;; Version: 0.4
-;; Package-Requires: ((dash "1.2.0"))
+;; Package-Requires: ((dash "1.2.0") (s "1.11.0"))
 
 ;;; Commentary:
 
@@ -45,6 +45,7 @@
 
 ;;; Code:
 
+(require 's)
 (require 'dash)
 (require 'thingatpt)
 
@@ -84,6 +85,12 @@ of this string."
 ;; todo: investigate whether we're reinventing the wheel, since query-replace-history already exists
 (defvar ez-query-replace/history nil)
 
+(defun ez-query-replace/truncate (s)
+  "Truncate string S so it's suitable to be shown in the minibuffer."
+  (->> s
+       (s-replace "\n" "\\n")
+       (s-truncate 50)))
+
 ;;;###autoload
 (defun ez-query-replace ()
   "Replace occurrences of FROM-STRING with TO-STRING, defaulting
@@ -91,13 +98,17 @@ to the symbol at point."
   (interactive)
   (let* ((from-string (read-from-minibuffer "Replace what? " (ez-query-replace/dwim-at-point)))
          (to-string (read-from-minibuffer
-                     (format "Replace %s with what? " from-string))))
+                     (format "Replace %s with what? " from-string)))
+         (history-entry (list (format "%s -> %s"
+                                      (ez-query-replace/truncate from-string)
+                                      (ez-query-replace/truncate to-string))
+                              from-string to-string)))
 
     (ez-query-replace/backward from-string)
 
-    (add-to-list 'ez-query-replace/history
-                 (list (format "%s -> %s" from-string to-string)
-                       from-string to-string))
+    (unless (member history-entry ez-query-replace/history)
+      (push history-entry ez-query-replace/history))
+    
     (deactivate-mark)
     (perform-replace from-string to-string t nil nil)))
 
