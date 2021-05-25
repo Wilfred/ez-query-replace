@@ -30,6 +30,11 @@ helm work too.
 
 ## Changelog
 
+### v0.5
+
+ez-query-replace-repeat now reorders history, making it easier to
+replay common replacements.
+
 ### v0.4
 
 ez-query-replace is now smarter about setting the initial value of
