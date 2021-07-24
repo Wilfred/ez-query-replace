@@ -120,19 +120,17 @@ to the symbol at point."
     (deactivate-mark)
     (perform-replace from-string to-string t nil nil)))
 
-(eval-when-compile (require 'cl)) ; first, second
-
 ;;;###autoload
 (defun ez-query-replace-repeat ()
   "Run `ez-query-replace' with an old FROM and TO value."
   (interactive)
   (unless ez-query-replace/history
     (error "You haven't used `ez-query-replace yet"))
-  (let* ((choices (mapcar 'first ez-query-replace/history))
+  (let* ((choices (mapcar #'-first-item ez-query-replace/history))
          (choice (completing-read "Previous replaces: " choices))
          (from-with-to (cdr (assoc choice ez-query-replace/history)))
-         (from-string (first from-with-to))
-         (to-string (second from-with-to)))
+         (from-string (-first-item from-with-to))
+         (to-string (-second-item from-with-to)))
     (ez-query-replace/backward from-string)
     (ez-query-replace/remember choice from-string to-string)
 
