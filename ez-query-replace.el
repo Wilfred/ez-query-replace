@@ -119,7 +119,7 @@ to the symbol at point."
     (ez-query-replace/remember description from-string to-string)
 
     (deactivate-mark)
-    (perform-replace description to-string t nil nil)))
+    (perform-replace from-string to-string t nil nil)))
 
 ;;;###autoload
 (defun ez-query-replace-repeat ()

@@ -8,10 +8,10 @@
     (insert " foo bar")
     (goto-char (point-min))
 
-    (with-simulated-input "foo RET foo RET y RET"
+    (with-simulated-input "foo RET boo RET y RET"
       (ez-query-replace))
 
-    (should (equal (buffer-string) " foo bar"))))
+    (should (equal (buffer-string) " boo bar"))))
 
 (ert-deftest ez-query-replace-history ()
   "Check that history is well-formed."
