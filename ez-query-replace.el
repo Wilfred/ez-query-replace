@@ -109,16 +109,17 @@ to the symbol at point."
   (let* ((from-string (read-from-minibuffer "Replace what? " (ez-query-replace/dwim-at-point)))
          (to-string (read-from-minibuffer
                      (format "Replace %s with what? " from-string)))
-         (history-entry (list (format "%s -> %s"
-                                      (ez-query-replace/truncate from-string)
-                                      (ez-query-replace/truncate to-string))
+         (description (format "%s -> %s"
+                              (ez-query-replace/truncate from-string)
+                              (ez-query-replace/truncate to-string)))
+         (history-entry (list description
                               from-string to-string)))
 
     (ez-query-replace/backward from-string)
-    (ez-query-replace/remember history-entry from-string to-string)
+    (ez-query-replace/remember description from-string to-string)
 
     (deactivate-mark)
-    (perform-replace from-string to-string t nil nil)))
+    (perform-replace description to-string t nil nil)))
 
 ;;;###autoload
 (defun ez-query-replace-repeat ()

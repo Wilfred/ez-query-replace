@@ -35,6 +35,8 @@ helm work too.
 ez-query-replace-repeat now reorders history, making it easier to
 replay common replacements.
 
+Fixed crash on replaying replacements.
+
 ### v0.4
 
 ez-query-replace is now smarter about setting the initial value of
