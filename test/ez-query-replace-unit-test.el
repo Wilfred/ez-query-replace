@@ -7,5 +7,7 @@
     (insert " foo bar")
     (goto-char (point-min))
 
-    (with-simulated-input "foo RET bar RET"
-      (ez-query-replace))))
+    (with-simulated-input "foo RET foo RET y RET"
+      (ez-query-replace))
+
+    (should (equal (buffer-string) " foo bar"))))
